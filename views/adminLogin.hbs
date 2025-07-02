@@ -1,0 +1,13 @@
+<main style="max-width:400px; margin:60px auto; background:#fff; border-radius:16px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:36px 32px 28px 32px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; text-align:center; margin-bottom:22px;">Login Administrador</h2>
+  {{#if error}}
+    <div style="background:#ffeaea; color:#b30000; border-radius:8px; padding:10px 22px; font-weight:600; margin-bottom:18px; text-align:center;">
+      {{error}}
+    </div>
+  {{/if}}
+  <form action="/admin/login" method="POST" style="display:flex; flex-direction:column; gap:16px;">
+    <input type="email" name="email" placeholder="Correo de admin" required style="padding:10px; border-radius:7px; border:1.5px solid #6a89cc;">
+    <input type="password" name="password" placeholder="Contraseña" required style="padding:10px; border-radius:7px; border:1.5px solid #6a89cc;">
+    <button type="submit" style="background:#3b5998; color:#fff; border:none; border-radius:8px; padding:10px 0; font-weight:600; font-size:1.07em;">Ingresar</button>
+  </form>
+</main>

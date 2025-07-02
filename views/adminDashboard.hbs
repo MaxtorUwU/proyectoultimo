@@ -1,0 +1,44 @@
+<main style="max-width:650px; margin:48px auto 0 auto; background:linear-gradient(120deg,#f7f9fc 60%,#eaf0fa 100%); border-radius:22px; box-shadow:0 6px 32px rgba(42,63,102,0.14); padding:48px 44px 36px 44px; border:2.5px solid #3b5998;">
+  {{#if exito}}
+    <div id="msg-exito" style="background:#e6f9ed; color:#217a4b; border-radius:8px; padding:10px 22px; font-weight:600; box-shadow:0 2px 8px rgba(42,63,102,0.13); font-size:1em; margin-bottom:18px; text-align:center;">
+      {{exito}}
+    </div>
+  {{/if}}
+  <div style="display:flex; align-items:center; gap:18px; margin-bottom:18px;">
+    <span style="font-size:2.2em; color:#3b5998;">🛡️</span>
+    <h1 style="color:#3b5998; margin:0; font-size:2.1em; letter-spacing:0.5px;">Panel de Administración</h1>
+  </div>
+  <div style="display:flex; gap:22px; justify-content:space-between; margin-bottom:34px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:120px; background:#fff; border-radius:14px; box-shadow:0 2px 10px rgba(42,63,102,0.07); padding:22px 0; text-align:center;">
+      <div style="font-size:2em; color:#3b5998; font-weight:700;">{{alumnos}}</div>
+      <div style="color:#6a89cc; font-size:1.08em; font-weight:600;">Alumnos</div>
+    </div>
+    <div style="flex:1; min-width:120px; background:#fff; border-radius:14px; box-shadow:0 2px 10px rgba(42,63,102,0.07); padding:22px 0; text-align:center;">
+      <div style="font-size:2em; color:#3b5998; font-weight:700;">{{profesores}}</div>
+      <div style="color:#6a89cc; font-size:1.08em; font-weight:600;">Profesores</div>
+    </div>
+    <div style="flex:1; min-width:120px; background:#fff; border-radius:14px; box-shadow:0 2px 10px rgba(42,63,102,0.07); padding:22px 0; text-align:center;">
+      <div style="font-size:2em; color:#3b5998; font-weight:700;">{{mensajes}}</div>
+      <div style="color:#6a89cc; font-size:1.08em; font-weight:600;">Mensajes</div>
+    </div>
+  </div>
+  <nav style="display:flex; flex-direction:column; gap:18px; margin-top:18px;">
+    <a href="/admin/mensajes" style="background:#eaf0fa; color:#3b5998; border-radius:10px; padding:16px 0; font-size:1.13em; font-weight:700; text-align:center; text-decoration:none; box-shadow:0 1px 6px rgba(42,63,102,0.07); transition:background 0.18s;">
+      📬 Ver mensajes de contacto
+    </a>
+    <a href="/admin/usuarios" style="background:#eaf0fa; color:#3b5998; border-radius:10px; padding:16px 0; font-size:1.13em; font-weight:700; text-align:center; text-decoration:none; box-shadow:0 1px 6px rgba(42,63,102,0.07); transition:background 0.18s;">
+      👥 Ver y gestionar usuarios
+    </a>
+    <a href="/admin/profesores/pendientes" style="background:#eaf0fa; color:#3b5998; border-radius:10px; padding:16px 0; font-size:1.13em; font-weight:700; text-align:center; text-decoration:none; box-shadow:0 1px 6px rgba(42,63,102,0.07); transition:background 0.18s;">
+      📝 Aprobar profesores pendientes
+    </a>
+    <a href="/admin/perfil" style="background:#eaf0fa; color:#3b5998; border-radius:10px; padding:16px 0; font-size:1.13em; font-weight:700; text-align:center; text-decoration:none; box-shadow:0 1px 6px rgba(42,63,102,0.07); transition:background 0.18s;">
+      ⚙️ Mi perfil admin
+    </a>
+  </nav>
+</main>
+<script>
+  if(document.getElementById('msg-exito')){
+    setTimeout(()=>{ document.getElementById('msg-exito').style.display='none'; }, 2500);
+  }
+</script>

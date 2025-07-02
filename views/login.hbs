@@ -1,0 +1,40 @@
+<main class="main-content-area">
+  <div class="form-container" id="login-container">
+    <h2 class="form-title">Iniciar Sesión</h2>
+    {{#if error}}
+      <p class="form-message error">{{error}}</p>
+    {{/if}}
+    {{#if successMessage}}
+      <p class="form-message success" id="login-success">{{successMessage}}</p>
+    {{/if}}
+    <form id="loginForm" action="/auth/login" method="POST">
+      <div class="form-group">
+        <label for="loginUsuario">Usuario o Email:</label>
+        <input type="text" id="loginUsuario" name="usernameOrEmail" placeholder="Tu usuario o email" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Contraseña:</label>
+        <input type="password" id="loginPassword" name="password" placeholder="Tu contraseña" required />
+      </div>
+      <button type="submit" class="form-button">Ingresar</button>
+    </form>
+    <p class="form-switch"> <a href="/auth/register">¿No tienes cuenta? Regístrate aquí</a></p>
+    <p class="form-switch" style="margin-top:8px;"><a href="/auth/olvido">¿Olvidaste tu contraseña?</a></p>
+  </div>
+</main>
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    const msg = document.getElementById('login-success');
+    if (msg) {
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 2500);
+    }
+  });
+</script>
+<style>
+  .form-container {
+    position: relative;
+    /* ... */
+  }
+</style>

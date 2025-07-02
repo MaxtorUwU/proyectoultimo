@@ -1,0 +1,48 @@
+<main class="main-content-area">
+  <div class="perfil-container">
+    <h2 style="color:#3b5998; text-align:center; margin-bottom:18px;">¿Olvidaste tu contraseña?</h2>
+    <p style="color:#555; text-align:center; margin-bottom:22px;">
+      Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+    </p>
+    <form action="/auth/olvido" method="POST" style="margin-top:0;">
+      <div class="input-group">
+        <label for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+      </div>
+      <button type="submit" class="btn-editar" style="width:100%; margin-top:10px;">Enviar enlace de recuperación</button>
+    </form>
+    {{#if mensaje}}
+      <div class="msg-exito" style="margin-top:18px;">{{mensaje}}</div>
+    {{/if}}
+    <div style="margin-top:22px; text-align:center;">
+      <a href="/auth/login" class="btn-logout" style="min-width:160px;">Volver al login</a>
+    </div>
+  </div>
+</main>
+<style>
+  .perfil-container {
+    max-width:400px; margin:40px auto 0 auto; background:#fff; border-radius:18px;
+    box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:36px 32px 28px 32px; border:2.5px solid #3b5998;
+    animation: fadeInPerfil 0.3s;
+  }
+  .input-group { margin-bottom: 18px; display: flex; flex-direction: column; }
+  .input-group label { color: #3b5998; font-weight: 600; margin-bottom: 6px; }
+  .input-group input {
+    padding: 10px 14px; border-radius: 7px; border: 1.5px solid #6a89cc; font-size: 1.08em; color: #3b5998; background: #f7f9fc; transition: border 0.18s;
+  }
+  .input-group input:focus { border-color: #3b5998; outline: none; background: #eaf0fa; }
+  .btn-editar, .btn-logout {
+    display: inline-block; padding: 10px 0; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.07em; min-width: 160px; text-align: center; transition: background 0.18s, color 0.18s; box-sizing: border-box; border: none; cursor: pointer;
+  }
+  .btn-editar { background: #3b5998; color: #fff;}
+  .btn-editar:hover { background: #6a89cc; }
+  .btn-logout { background: #eaf0fa; color: #3b5998; border: 1.5px solid #3b5998;}
+  .btn-logout:hover { background: #3b5998; color: #fff; }
+  .msg-exito {
+    background: #e6f9ed; color: #217a4b; border-radius: 8px; padding: 10px 22px; font-weight: 600; box-shadow: 0 2px 8px rgba(42,63,102,0.13); font-size: 1em; margin: 18px auto 0 auto; max-width: 320px; text-align: center;
+  }
+  @keyframes fadeInPerfil {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+</style>

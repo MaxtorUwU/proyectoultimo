@@ -1,0 +1,218 @@
+<main class="main-content-area">
+  <div class="form-container" style="max-width:950px;">
+    <h2 class="form-title" style="margin-bottom:18px;">Asignaturas Disponibles</h2>
+    <div style="margin-bottom:12px; font-size:1.1em;">
+      Créditos disponibles: <b>{{usuario.creditos_disponibles}}</b>
+    </div>
+    <form id="buscador-form" method="GET" action="/asignaturas" style="margin-bottom:18px; display:flex; gap:8px;">
+      <input
+        id="buscador"
+        type="text"
+        name="q"
+        autocomplete="off"
+        placeholder="Buscar por nombre, código o profesor..."
+        value="{{q}}"
+        style="flex:1; padding:7px 12px; border-radius:6px; border:1px solid #b0b0b0;"
+      >
+    </form>
+    <div style="overflow-x:auto;">
+      <table class="horario-table" style="width:100%; border-collapse:separate; border-spacing:0; margin:0 auto; background:#f7f9fc; border-radius:12px; box-shadow:0 0 12px rgba(42,63,102,0.08);">
+        <thead>
+          <tr style="background:#3b5998; color:#fff;">
+            <th style="padding:12px 4px; border:1.5px solid #3b5998; border-top-left-radius:10px;">Nombre</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Sección</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Código</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Créditos</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Cupos</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Profesor</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998;">Horario</th>
+            <th style="padding:12px 4px; border:1.5px solid #3b5998; border-top-right-radius:10px;">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each asignaturas}}
+          <tr>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">{{nombre}}</td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">{{seccion}}</td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">{{codigo}}</td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">{{creditos}}</td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">{{cupos}}</td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">
+              {{#if profesor}}
+                {{profesor}}
+              {{else}}
+                &ndash;
+              {{/if}}
+            </td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">
+              {{#each horarios}}
+                {{dia}} {{hora_inicio}} - {{hora_fin}}<br>
+              {{/each}}
+            </td>
+            <td style="padding:10px 4px; border:1px solid #ced6e0;">
+              {{#if inscrito}}
+                <form action="/asignaturas/salir" method="POST" style="display:inline;">
+                  <input type="hidden" name="asignatura_id" value="{{id}}">
+                  <input type="hidden" name="q" value="{{../q}}">
+                  <input type="hidden" name="page" value="{{../page}}">
+                  <button type="submit" class="form-button" style="padding:6px 12px; font-size:0.98em; background:#c0392b; color:#fff;">Salir</button>
+                </form>
+              {{else if cupos}}
+                <form action="/asignaturas/inscribir" method="POST" style="margin:0;">
+                  <input type="hidden" name="asignatura_id" value="{{id}}">
+                  <input type="hidden" name="q" value="{{../q}}">
+                  <input type="hidden" name="page" value="{{../page}}">
+                  <button type="submit" class="form-button" style="padding:6px 12px; font-size:0.98em;">Inscribir</button>
+                </form>
+              {{else}}
+                <span style="color:#c0392b;">Sin cupos</span>
+              {{/if}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="paginador-centrado">
+      {{#if hasPrev}}
+        <a href="?q={{q}}&page={{prevPage}}" class="form-button paginador-arrow" title="Anterior">&#8592;</a>
+      {{else}}
+        <span class="paginador-fake-arrow"></span>
+      {{/if}}
+      <span>Página {{page}} de {{totalPages}}</span>
+      {{#if hasNext}}
+        <a href="?q={{q}}&page={{nextPage}}" class="form-button paginador-arrow" title="Siguiente">&#8594;</a>
+      {{else}}
+        <span class="paginador-fake-arrow"></span>
+      {{/if}}
+    </div>
+  </div>
+</main>
+{{#if mensaje}}
+  <div id="toast-mensaje" class="toast-{{tipoMensaje}}">
+    {{mensaje}}
+  </div>
+{{/if}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Guardar scroll antes de enviar formulario
+  document.querySelectorAll('form[action^="/asignaturas/"]').forEach(function(form) {
+    form.addEventListener('submit', function() {
+      sessionStorage.setItem('asigScroll', window.scrollY);
+    });
+  });
+  // Restaurar scroll después de recarga
+  if (sessionStorage.getItem('asigScroll')) {
+    window.scrollTo({ top: Number(sessionStorage.getItem('asigScroll')), behavior: 'instant' });
+    sessionStorage.removeItem('asigScroll');
+  }
+  var toast = document.getElementById('toast-mensaje');
+  if (toast) {
+    setTimeout(function() {
+      toast.style.display = 'none';
+    }, 3200);
+  }
+  document.getElementById('buscador').addEventListener('input', function() {
+    clearTimeout(window.buscadorTimeout);
+    window.buscadorTimeout = setTimeout(function() {
+      const valor = document.getElementById('buscador').value.trim();
+      if (valor.length > 0) {
+        document.getElementById('buscador-form').submit();
+      } else {
+        window.location.href = '/asignaturas';
+      }
+    }, 700);
+  });
+});
+</script>
+<style>
+.horario-table tr:nth-child(even) { background: #f0f4fa; }
+.horario-table tr:nth-child(odd) { background: #fff; }
+.horario-table th, .horario-table td {
+  border: 1px solid #ced6e0;
+}
+.horario-table th:first-child { border-top-left-radius: 10px; }
+.horario-table th:last-child { border-top-right-radius: 10px; }
+.horario-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.form-button {
+  border-radius: 6px;
+  border: none;
+  background: #3b5998;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.form-button:hover {
+  background: #2d4373;
+}
+.paginador-centrado {
+  margin-top:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:100%;
+}
+.paginador-centrado span {
+  font-size:1.1em;
+  font-weight:500;
+  background:none;
+  border:none;
+  border-radius:0;
+  margin:0;
+  padding:0;
+}
+.paginador-arrow,
+.paginador-fake-arrow {
+  display: inline-block;
+  width: 36px;
+  text-align: center;
+  font-size: 1.5em;
+  vertical-align: middle;
+  background: none;
+  border: none;
+  color: #3b5998;
+  padding: 0 8px;
+}
+.paginador-arrow:hover {
+  background: none;
+}
+.paginador-fake-arrow {
+  visibility: hidden;
+}
+.toast-success, .toast-error {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 90vw;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  opacity: 0.97;
+  animation: toast-in 0.3s;
+}
+.toast-success {
+  background: #e6f9e6;
+  color: #217a21;
+  border: 1.5px solid #b6e6b6;
+}
+.toast-error {
+  background: #ffeaea;
+  color: #b30000;
+  border: 1.5px solid #ffb3b3;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-30px);}
+  to   { opacity: 0.97; transform: translateX(-50%) translateY(0);}
+}
+</style>

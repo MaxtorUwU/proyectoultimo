@@ -1,0 +1,45 @@
+<main style="max-width:700px; margin:48px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:38px 30px 28px 30px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; margin-bottom:18px;">Profesores pendientes de aprobación</h2>
+  {{#if exito}}
+    <div id="msg-exito" style="background:#e6f9ed; color:#217a4b; border-radius:8px; padding:10px 22px; font-weight:600; box-shadow:0 2px 8px rgba(42,63,102,0.13); font-size:1em; margin:18px auto 18px auto; max-width:320px; text-align:center;">
+      {{exito}}
+    </div>
+  {{/if}}
+  <table style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr style="background:#eaf0fa;">
+        <th style="padding:8px;">Nombre</th>
+        <th style="padding:8px;">Email</th>
+        <th style="padding:8px;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each profesores}}
+        <tr style="border-bottom:1px solid #eaf0fa;">
+          <td style="padding:8px;">{{username}}</td>
+          <td style="padding:8px;">{{email}}</td>
+          <td style="padding:8px;">
+            <form action="/admin/profesores/{{id}}/aprobar" method="POST" style="display:inline;">
+              <button type="submit" style="background:#27ae60; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:600;">Aprobar</button>
+            </form>
+            <form action="/admin/profesores/{{id}}/rechazar" method="POST" style="display:inline;">
+              <button type="submit" style="background:#c0392b; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-weight:600;">Rechazar</button>
+            </form>
+          </td>
+        </tr>
+      {{else}}
+        <tr><td colspan="3" style="text-align:center; color:#888;">No hay profesores pendientes.</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div style="margin-top:28px; text-align:center;">
+    <a href="/admin/dashboard" class="btn-logout" style="min-width:160px; display:inline-block; background:#eaf0fa; color:#3b5998; border:1.5px solid #3b5998; border-radius:8px; padding:10px 0; font-weight:600; text-decoration:none; transition:background 0.18s, color 0.18s;">
+      Volver al panel
+    </a>
+  </div>
+</main>
+<script>
+  if(document.getElementById('msg-exito')){
+    setTimeout(()=>{ document.getElementById('msg-exito').style.display='none'; }, 2500);
+  }
+</script>

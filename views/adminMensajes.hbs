@@ -1,0 +1,36 @@
+<main style="max-width:700px; margin:48px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:40px 36px 28px 36px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; margin-bottom:18px;">Mensajes de contacto</h2>
+  {{#if mensajes.length}}
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#eaf0fa;">
+          <th style="padding:8px;">Usuario</th>
+          <th style="padding:8px;">Email</th>
+          <th style="padding:8px;">Fecha</th>
+          <th style="padding:8px;">Mensaje</th>
+          <th style="padding:8px;">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each mensajes}}
+          <tr style="border-bottom:1px solid #eaf0fa;">
+            <td style="padding:8px;">{{#if username}}{{username}}{{else}}Anónimo{{/if}}</td>
+            <td style="padding:8px;">{{#if email}}{{email}}{{else}}No disponible{{/if}}</td>
+            <td style="padding:8px;">{{fechaString}}</td>
+            <td style="padding:8px;">{{mensaje}}</td>
+            <td style="padding:8px;">
+              <form action="/admin/mensajes/eliminar/{{id}}" method="POST" style="display:inline;">
+                <button type="submit" style="background:#b30000; color:#fff; border:none; border-radius:6px; padding:4px 10px; font-size:0.97em; cursor:pointer;">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div style="color:#888;">No hay mensajes de contacto.</div>
+  {{/if}}
+  <div style="margin-top:24px; text-align:center;">
+    <a href="/admin/dashboard" style="color:#3b5998; text-decoration:underline;">Volver al panel</a>
+  </div>
+</main>

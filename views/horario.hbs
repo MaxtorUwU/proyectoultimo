@@ -1,0 +1,368 @@
+<main class="main-content-area">
+  <div class="form-container" style="max-width:800px; position:relative; display:flex; flex-direction:row;">
+    <div style="flex:1;">
+      <h2 class="form-title" style="margin-bottom:18px;">Horario Diario</h2>
+      <div style="margin-bottom: 18px;">
+        <a href="/dashboard" class="form-button acceso-rapido-btn" style="background:#f7f9fc; color:#3b5998; border:1.5px solid #3b5998; font-weight:600; padding:10px 28px; display:inline-block;">
+          ← Volver
+        </a>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; margin-bottom:24px;">
+        <button id="semana-prev" class="arrow-btn-simple" aria-label="Semana anterior">&#10094;</button>
+        <div id="dias-tabs" style="display:flex; gap:10px;">
+          {{#each dias}}
+            <button class="dia-tab" data-dia="{{@index}}" data-fecha="{{this.fecha}}" style="padding:10px 28px; border-radius:8px; border:1.5px solid #3b5998; background:#f7f9fc; color:#3b5998; font-weight:600; font-size:1.08em; cursor:pointer; transition:background 0.2s; position:relative;">
+              {{this.label}}
+              <span class="eval-dot-dia" style="display:none; position:absolute; top:8px; right:12px;"></span>
+            </button>
+          {{/each}}
+        </div>
+        <button id="semana-next" class="arrow-btn-simple" aria-label="Semana siguiente">&#10095;</button>
+      </div>
+      <div id="mes-label" style="text-align:center; font-weight:600; color:#3b5998; margin-bottom:18px;">
+        <!-- El mes se mostrará aquí por JS -->
+      </div>
+      <div id="bloques-dia">
+        {{#each dias}}
+          {{#with this as |diaObj|}}
+          <div class="bloques-dia-content" id="bloques-{{@index}}" style="display:none;">
+            <h3 style="margin-bottom:16px; color:#3b5998; font-size:1.25em; text-align:center;">{{diaObj.label}}</h3>
+            <table style="width:100%; border-collapse:separate; border-spacing:0; background:#f7f9fc; border-radius:10px; box-shadow:0 0 8px rgba(42,63,102,0.07); margin:0 auto;">
+              <thead>
+                <tr style="background:#3b5998; color:#fff;">
+                  <th style="padding:10px 24px; border-top-left-radius:10px; text-align:center;">Bloque</th>
+                  <th style="padding:10px 24px; border-top-right-radius:10px; text-align:center;">Asignatura</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each ../bloques}}
+                  <tr style="background:{{#if @odd}}#eaf0fa{{else}}#fff{{/if}};">
+                    <td style="padding:10px 24px; border-bottom:1px solid #e1e8ed; font-weight:600; text-align:center;">{{this}}</td>
+                    <td style="padding:10px 24px; border-bottom:1px solid #e1e8ed; text-align:center;">
+                      {{#with (lookup (lookup ../../horario this) diaObj.fecha) as |info|}}
+                        {{#if info}}
+                          <span class="asig-info"
+                            data-nombre="{{info.nombre}}"
+                            data-codigo="{{info.codigo}}"
+                            data-profesor="{{info.profesor}}"
+                            data-asigid="{{info.id}}"
+                            data-dia="{{diaObj.fecha}}">
+                            {{info.nombre}} ({{info.codigo}})
+                            <span class="eval-dot" style="display:none;" title="¡Tienes evaluación!"></span>
+                          </span>
+                        {{else}}
+                          <span style="color:#b0b0b0;">—</span>
+                        {{/if}}
+                      {{/with}}
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+            {{!-- Dentro del bloque de cada día --}}
+            {{#with (lookup ../evaluacionesPorDia diaObj.fecha) as |evalsDia|}}
+              {{#if evalsDia.length}}
+                <div style="margin-top:18px; background:#eaf4fd; border-left:4px solid #2196f3; border-radius:8px; padding:14px 18px;">
+                  <div style="font-size:1.08em; color:#2196f3; font-weight:700; margin-bottom:6px;">
+                    📘 Evaluaciones para este día:
+                  </div>
+                  <ul style="margin:0; padding-left:18px;">
+                    {{#each evalsDia}}
+                      <li>
+                        <b>{{nombre}}</b> <span style="color:#666;">({{tipo}})</span>
+                        <span style="color:#3b5998; font-weight:600;">{{asignatura_nombre}}</span>
+                        {{#if descripcion}}<br><span style="color:#555;">{{descripcion}}</span>{{/if}}
+                      </li>
+                    {{/each}}
+                  </ul>
+                </div>
+              {{/if}}
+            {{/with}}
+          </div>
+          {{/with}}
+        {{/each}}
+      </div>
+    </div>
+    <div id="info-panel" style="display:none; position:fixed; top:40px; right:40px; min-width:260px; max-width:340px; background:#fff; border:1.5px solid #3b5998; border-radius:16px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:28px 28px 18px 28px; z-index:200; animation: fadeInPanel 0.25s; max-height:80vh; overflow-y:auto;">
+      <button id="close-info-btn" aria-label="Cerrar" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:1.5em; color:#3b5998; cursor:pointer; border-radius:50%; width:32px; height:32px; transition:background 0.2s;">
+        &times;
+      </button>
+      <h4 id="info-nombre" style="margin-top:0; margin-bottom:10px; color:#3b5998; font-size:1.18em; font-weight:700; letter-spacing:0.5px;"></h4>
+      <div style="margin-bottom:8px; color:#444;">
+        <span style="font-weight:600; color:#6a89cc;">Código:</span>
+        <span id="info-codigo"></span>
+      </div>
+      <div style="margin-bottom:14px; color:#444;">
+        <span style="font-weight:600; color:#6a89cc;">Profesor:</span>
+        <span id="info-profesor"></span>
+      </div>
+      <div id="info-evaluacion" style="margin-top:12px;"></div>
+    </div>
+  </div>
+</main>
+<script>
+  window.evaluaciones = {{{json evaluaciones}}};
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.dia-tab');
+    const bloques = document.querySelectorAll('.bloques-dia-content');
+    let semanaBase = "{{semanaBase}}";
+    let infoPanel = document.getElementById('info-panel');
+    let closeBtn = document.getElementById('close-info-btn');
+
+    // Forzar que el día inicial sea lunes si hoy es domingo
+    function getTodayIndex() {
+  const todayISO = "{{hoyChile}}";
+  let idx = -1;
+  tabs.forEach((tab, i) => {
+    if (tab.dataset.fecha === todayISO) idx = i;
+  });
+  return idx >= 0 ? idx : 0; // Si no está, muestra lunes
+}
+
+    function showDia(idx, btn) {
+      bloques.forEach(b => b.style.display = 'none');
+      const el = document.getElementById('bloques-' + idx);
+      if (el) el.style.display = 'block';
+      tabs.forEach(t => t.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      infoPanel.style.display = 'none';
+    }
+
+    // Marcar y mostrar el día inicial al cargar (lunes 30 si hoy es domingo 29)
+    let todayIdx = getTodayIndex();
+    showDia(todayIdx, tabs[todayIdx]);
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', function() {
+        showDia(idx, this);
+      });
+    });
+
+    // Mostrar info de asignatura al costado, incluyendo evaluación si existe
+    document.getElementById('bloques-dia').addEventListener('click', function(e) {
+      if (e.target.classList.contains('asig-info')) {
+        document.getElementById('info-nombre').textContent = e.target.dataset.nombre;
+        document.getElementById('info-codigo').textContent = e.target.dataset.codigo;
+        document.getElementById('info-profesor').textContent = e.target.dataset.profesor;
+
+        // Mostrar info de evaluación si existe
+        const asigId = e.target.dataset.asigid;
+        const dia = e.target.dataset.dia;
+        let evalInfo = '';
+        if (window.evaluaciones && Array.isArray(window.evaluaciones)) {
+          const evals = window.evaluaciones.filter(ev =>
+            String(ev.asignatura_id) === String(asigId) &&
+            ev.fechaISO === dia
+          );
+          if (evals.length) {
+            evalInfo = `
+              <div style="background:#eaf4fd; border-left:4px solid #2196f3; border-radius:8px; padding:12px 16px; margin-top:8px;">
+                <div style="font-size:1.08em; color:#2196f3; font-weight:700; margin-bottom:4px;">
+                  <span style="vertical-align:middle; margin-right:6px;">📘</span> ¡Tienes evaluación!
+                </div>
+                <div style="color:#222; font-weight:600;">${evals[0].nombre} <span style="font-weight:400; color:#666;">(${evals[0].tipo})</span></div>
+                <div style="color:#555; font-size:0.98em; margin-top:2px;">
+                  <span style="font-weight:600;">Fecha:</span> ${evals[0].fechaString}
+                </div>
+                ${evals[0].descripcion ? `<div style="color:#666; font-size:0.97em; margin-top:6px;">${evals[0].descripcion}</div>` : ''}
+              </div>
+            `;
+          }
+        }
+        document.getElementById('info-evaluacion').innerHTML = evalInfo;
+        infoPanel.style.display = 'flex';
+        infoPanel.style.opacity = 1;
+      }
+    });
+
+    // Cerrar panel con botón
+    closeBtn.addEventListener('click', function() {
+      infoPanel.style.opacity = 0;
+      setTimeout(() => { infoPanel.style.display = 'none'; }, 180);
+    });
+
+    // Flechas para cambiar semana (recarga la página con nuevo query param)
+    document.getElementById('semana-prev').addEventListener('click', function() {
+      const prev = new Date(semanaBase);
+      prev.setDate(prev.getDate() - 7);
+      window.location = '?semana=' + prev.toISOString().slice(0,10);
+    });
+    document.getElementById('semana-next').addEventListener('click', function() {
+      const next = new Date(semanaBase);
+      next.setDate(next.getDate() + 7);
+      window.location = '?semana=' + next.toISOString().slice(0,10);
+    });
+
+    // Mostrar el mes en el label
+    function mostrarMes(fechaISO) {
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      const fecha = new Date(fechaISO);
+      const mes = meses[fecha.getMonth()];
+      const anio = fecha.getFullYear();
+      document.getElementById('mes-label').textContent = mes + ' ' + anio;
+    }
+    mostrarMes(semanaBase);
+
+    // Mostrar punto azul si hay evaluación en la materia
+    document.querySelectorAll('.asig-info').forEach(function(span) {
+      const asigId = span.dataset.asigid;
+      const dia = span.dataset.dia;
+      if (window.evaluaciones && Array.isArray(window.evaluaciones)) {
+        const tieneEval = window.evaluaciones.some(ev =>
+          String(ev.asignatura_id) === String(asigId) &&
+          ev.fechaISO === dia
+        );
+        if (tieneEval) {
+          const dot = span.querySelector('.eval-dot');
+          if (dot) dot.style.display = 'inline-block';
+        }
+      }
+    });
+
+    // Mostrar punto azul en el tab del día si hay evaluación ese día
+    document.querySelectorAll('.dia-tab').forEach(function(tab) {
+      const dia = tab.dataset.fecha;
+      if (window.evaluaciones && Array.isArray(window.evaluaciones)) {
+        const tieneEval = window.evaluaciones.some(ev => ev.fechaISO === dia);
+        if (tieneEval) {
+          const dot = tab.querySelector('.eval-dot-dia');
+          if (dot) dot.style.display = 'inline-block';
+        }
+      }
+    });
+  });
+</script>
+<style>
+  .dia-tab.active,
+  .dia-tab:focus {
+    background: #3b5998 !important;
+    color: #fff !important;
+    outline: none;
+    border-color: #3b5998 !important;
+  }
+  .dia-tab:hover {
+    background: #d6e4ff;
+  }
+  .arrow-btn-simple {
+    background: none;
+    border: none;
+    color: #3b5998;
+    font-size: 2.1em;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.18s, color 0.18s;
+    margin: 0 4px;
+    outline: none;
+  }
+  .arrow-btn-simple:hover, .arrow-btn-simple:focus {
+    background: #eaf0fa;
+    color: #1a2a4f;
+  }
+  .asig-info {
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(90deg,#3b5998 60%,#6a89cc 100%);
+    border-radius: 9px;
+    padding: 7px 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(59,89,152,0.13);
+    border: 2px solid #3b5998;
+    display: inline-block;
+    margin: 0 2px;
+    position: relative;
+    font-size: 1.08em;
+    letter-spacing: 0.5px;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s, border 0.18s;
+  }
+  .asig-info:hover, .asig-info:focus {
+    background: linear-gradient(90deg,#6a89cc 0%,#3b5998 100%);
+    color: #fff;
+    border-color: #6a89cc;
+    box-shadow: 0 4px 16px rgba(59,89,152,0.18);
+    outline: none;
+    filter: brightness(1.08);
+  }
+  #info-panel {
+    transition: right 0.2s, opacity 0.2s, max-height 0.2s;
+    opacity: 1;
+    min-height: 0;
+    max-height: 80vh;
+    overflow-y: auto;
+    top: 0;
+    right: 0;
+    position: fixed;
+    margin-top: 32px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  @keyframes fadeInPanel {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  #close-info-btn:hover {
+    background: #eaf0fa;
+  }
+  @media (max-width: 1000px) {
+    .form-container {
+      flex-direction: column !important;
+    }
+    #info-panel {
+      margin-left: 0;
+      margin-top: 24px;
+      max-width: 100%;
+      width: 100%;
+      right: 0;
+      left: 0;
+    }
+  }
+  .form-button.acceso-rapido-btn {
+    min-width: 170px;
+    padding: 10px 28px;
+    font-size: 1.08em;
+    border-radius: 8px;
+    background: #3b5998;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 8px rgba(42,63,102,0.07);
+    transition: background 0.18s, color 0.18s;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  .form-button.acceso-rapido-btn:hover {
+    background: #2d4373;
+    color: #fff;
+  }
+  .eval-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #2196f3;
+    border-radius: 50%;
+    margin-left: 8px;
+    vertical-align: middle;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #2196f3;
+  }
+  .eval-dot-dia {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #2196f3;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #2196f3;
+  }
+</style>

@@ -1,0 +1,673 @@
+<main class="main-content-area">
+  <div class="form-container" style="max-width:1200px; margin:0 auto; position:relative; display:flex; gap:36px; align-items:flex-start;">
+    <div style="flex:2;">
+      <div class="header-asignaturas">
+        <h2 class="form-title">Mis Asignaturas Inscritas</h2>
+      </div>
+      {{#if mensaje}}
+        <div id="toast-mensaje" class="toast-{{tipoMensaje}}">
+          {{mensaje}}
+        </div>
+      {{/if}}
+      {{#if asignaturas.length}}
+        <div style="overflow-x:auto;">
+          <table class="horario-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Sección</th>
+                <th>Código</th>
+                <th>Profesor</th>
+                <th>Horario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each asignaturas}}
+              <tr>
+                <td>
+                  {{nombre}}
+                  {{#if proximaEvaluacion}}
+                    <span class="eval-label" title="Próxima evaluación: {{proximaEvaluacion.fechaString}}">
+                      ¡Evaluación! <span style="font-size:0.95em;">({{proximaEvaluacion.fechaString}})</span>
+                      <button class="btn-eliminar-eval"
+                              data-evalid="{{proximaEvaluacion.id}}"
+                              title="Eliminar evaluación"
+                              style="margin-left:6px; background:#e57373; color:#fff; border:none; border-radius:4px; padding:2px 8px; font-size:0.98em; cursor:pointer;">✕</button>
+                    </span>
+                  {{/if}}
+                </td>
+                <td>{{seccion}}</td>
+                <td>{{codigo}}</td>
+                <td>{{profesor}}</td>
+                <td>
+                  {{#each horarios}}
+                    {{dia}} {{hora_inicio}} - {{hora_fin}}<br>
+                  {{/each}}
+                </td>
+                <td style="text-align:center;">
+                  <form action="/mis-asignaturas/salir" method="POST" style="display:block;">
+                    <input type="hidden" name="asignatura_id" value="{{id}}">
+                    <button type="submit" class="form-button btn-retirarse btn-block">Retirarse</button>
+                  </form>
+                  <button type="button" class="form-button btn-azul btn-block calcular-notas-btn" data-asig="{{id}}">
+                    Calcular notas
+                  </button>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        <!-- Botón añadir evaluación abajo de la tabla, solo si hay asignaturas -->
+        <div style="display:flex; justify-content:center; margin-top:28px;">
+          <button type="button" id="abrir-evaluacion" class="form-button btn-azul">
+            + Añadir evaluación
+          </button>
+        </div>
+      {{else}}
+        <div class="sin-asignaturas">
+          No tienes asignaturas inscritas actualmente.
+        </div>
+      {{/if}}
+    </div>
+
+    <!-- Popup tipo card a la derecha -->
+    <div id="popup-notas" class="popup-notas-bg" style="display:none;">
+      <div class="popup-notas-card">
+        <button id="cerrar-popup-notas" class="btn-cerrar-popup" title="Cerrar">
+          <svg width="18" height="18" viewBox="0 0 18 18"><line x1="4" y1="4" x2="14" y2="14" stroke="#3b5998" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="4" x2="4" y2="14" stroke="#3b5998" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <h3>Simulador de notas</h3>
+        <div id="popup-asig-nombre" class="popup-asig-nombre"></div>
+        <form id="form-notas">
+          <div id="notas-list"></div>
+          <button type="button" id="agregar-nota" class="form-button btn-azul btn-block">+ Añadir evaluación</button>
+          <div class="promedio-simulado">
+            <b>Promedio simulado:</b> <span id="promedio-notas">-</span>
+          </div>
+          <button type="button" id="guardar-simulacion" class="form-button btn-azul btn-block">Guardar simulación</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para añadir evaluación -->
+    <div id="modal-evaluacion" class="modal-evaluacion-bg" style="display:none;">
+      <div class="modal-evaluacion-card">
+        <button id="cerrar-modal-evaluacion" class="btn-cerrar-popup" title="Cerrar">
+          <svg width="18" height="18" viewBox="0 0 18 18"><line x1="4" y1="4" x2="14" y2="14" stroke="#3b5998" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="4" x2="4" y2="14" stroke="#3b5998" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <h3>Añadir evaluación</h3>
+        <form id="form-evaluacion">
+          <label>Asignatura:
+            <select id="eval-asignatura" class="form-input">
+              {{#each asignaturas}}
+                <option value="{{id}}">{{nombre}}</option>
+              {{/each}}
+            </select>
+          </label>
+          <label>Nombre:
+            <input type="text" id="eval-nombre" class="form-input" maxlength="100" required>
+          </label>
+          <label>Tipo:
+            <select id="eval-tipo" class="form-input">
+              <option value="">Selecciona tipo</option>
+              <option value="Solemne">Solemne</option>
+              <option value="Control">Control</option>
+              <option value="Examen">Examen</option>
+              <option value="Tarea">Tarea</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </label>
+          <label>Fecha:
+            <input type="date" id="eval-fecha" class="form-input" required>
+          </label>
+          <label>Descripción:
+            <textarea id="eval-desc" class="form-input" maxlength="255"></textarea>
+          </label>
+          <button type="submit" class="form-button btn-azul btn-block">Guardar evaluación</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<style>
+.form-container { position:relative; }
+.header-asignaturas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #eaf0fa;
+}
+.acciones-superiores {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.form-title {
+  font-size: 2em;
+  font-weight: 700;
+  color: #2d4373;
+  margin: 0;
+}
+.horario-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(42,63,102,0.08);
+  margin: 0 auto;
+}
+.horario-table th, .horario-table td {
+  border: 1px solid #ced6e0;
+  padding: 12px 8px;
+  text-align: center;
+}
+.horario-table th {
+  background: #3b5998;
+  color: #fff;
+  font-weight: 600;
+}
+.horario-table th:first-child { border-top-left-radius: 10px; }
+.horario-table th:last-child { border-top-right-radius: 10px; }
+.btn-block {
+  width: 100%;
+  margin: 8px 0 0 0;
+  display: block;
+}
+.form-button, .btn-azul {
+  border-radius: 6px;
+  border: none;
+  background: #3b5998;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  padding: 10px 0;
+  font-size: 1.05em;
+}
+.form-button:hover, .btn-azul:hover {
+  background: #2d4373;
+}
+.btn-retirarse {
+  background: #e57373 !important;
+  color: #fff !important;
+  border: none;
+}
+.btn-retirarse:hover {
+  background: #c0392b !important;
+}
+.sin-asignaturas {
+  margin:32px 0; text-align:center; color:#888; font-size:1.1em;
+}
+.popup-notas-bg {
+  position: sticky;
+  top: 40px;
+  align-self: flex-start;
+  z-index: 100;
+  display: none;
+  min-width: 0;
+  width: 370px;
+  margin-left: 0;
+}
+.popup-notas-bg.popup-open {
+  display: flex;
+}
+.popup-notas-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(42,63,102,0.13);
+  padding: 32px 28px 22px 28px;
+  min-width: 320px;
+  max-width: 370px;
+  border: 2px solid #3b5998;
+  position: relative;
+  animation: popupNotasIn 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.popup-notas-card h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  text-align: center;
+  color: #2d4373;
+}
+.popup-asig-nombre {
+  font-weight: 600;
+  margin-bottom: 18px;
+  font-size: 1.1em;
+  text-align: center;
+}
+.promedio-simulado {
+  margin-bottom: 18px;
+  font-size: 1.13em;
+  text-align: center;
+}
+@keyframes popupNotasIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+.btn-cerrar-popup {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-cerrar-popup:hover {
+  background: #eaf0fa;
+}
+.btn-cerrar-popup svg {
+  display: block;
+}
+.nota-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 18px;
+  width: 100%;
+  justify-content: center;
+}
+.nota-row input {
+  margin-right: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #b0b0b0;
+  font-size: 1.08em;
+}
+.nota-row input:focus { outline:2px solid #3b5998; }
+.nota-row input[type="text"].nota-valor {
+  text-align: right;
+}
+.borrar-nota {
+  background: #3b5998 !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+.toast-success, .toast-error {
+  position: fixed;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 90vw;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  opacity: 0.97;
+  animation: toast-in 0.3s;
+  background: #fff;
+  border: 1.5px solid #b6e6b6;
+}
+.toast-success {
+  background: #e6f9e6;
+  color: #217a21;
+  border: 1.5px solid #b6e6b6;
+}
+.toast-error {
+  background: #ffeaea;
+  color: #b30000;
+  border: 1.5px solid #ffb3b3;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-30px);}
+  to   { opacity: 0.97; transform: translateX(-50%) translateY(0);}
+}
+@media (max-width: 1100px) {
+  .form-container { flex-direction: column; gap:24px; }
+  .popup-notas-bg { position:static; width:100%; max-width:98vw; margin-left:0; }
+  .popup-notas-card { min-width:0; max-width:98vw; }
+}
+@media (max-width: 700px) {
+  .popup-notas-card {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 14px 4vw 10px 4vw;
+  }
+  .popup-notas-bg {
+    width: 100vw;
+  }
+  .acciones-superiores {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+}
+.modal-evaluacion-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(42,63,102,0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-evaluacion-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(42,63,102,0.13);
+  padding: 32px 28px 22px 28px;
+  min-width: 320px;
+  max-width: 370px;
+  border: 2px solid #3b5998;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-evaluacion-card h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  text-align: center;
+  color: #2d4373;
+}
+.form-input {
+  border-radius: 6px;
+  border: 1.5px solid #b0b0b0;
+  padding: 8px 10px;
+  font-size: 1.08em;
+  margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.form-input:focus { outline:2px solid #3b5998; }
+#form-evaluacion label {
+  width: 100%;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #3b5998;
+}
+#form-evaluacion button {
+  margin-top: 10px;
+}
+.eval-label {
+  display: inline-block;
+  background: #2196f3;
+  color: #fff;
+  font-size: 0.92em;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // --- MODAL AÑADIR EVALUACIÓN ---
+  const modalEval = document.getElementById('modal-evaluacion');
+  const abrirEval = document.getElementById('abrir-evaluacion');
+  const cerrarEval = document.getElementById('cerrar-modal-evaluacion');
+  if (abrirEval && modalEval) {
+    abrirEval.onclick = () => { modalEval.style.display = 'flex'; };
+  }
+  if (cerrarEval && modalEval) {
+    cerrarEval.onclick = () => { modalEval.style.display = 'none'; };
+  }
+  if (modalEval) {
+    modalEval.onclick = e => { if(e.target === modalEval) modalEval.style.display = 'none'; };
+  }
+
+  // --- POPUP CALCULAR NOTAS ---
+  const popup = document.getElementById('popup-notas');
+  const cerrarPopupBtn = document.getElementById('cerrar-popup-notas');
+  const notasList = document.getElementById('notas-list');
+  const promedioNotas = document.getElementById('promedio-notas');
+  const asigNombre = document.getElementById('popup-asig-nombre');
+  let currentAsignaturaId = null;
+
+  // Simulaciones desde backend (debes pasar la variable en tu render)
+  const simulaciones = typeof window.simulaciones !== 'undefined' ? window.simulaciones : [];
+
+  // Obtener asignaturas para mostrar nombre
+  const asignaturas = [];
+  document.querySelectorAll('.calcular-notas-btn').forEach(btn => {
+    const tr = btn.closest('tr');
+    if (tr) {
+      const tds = tr.querySelectorAll('td');
+      asignaturas.push({
+        id: btn.dataset.asig,
+        nombre: tds[0]?.textContent.trim() || ''
+      });
+    }
+  });
+
+  // Abrir popup calcular notas
+  document.querySelectorAll('.calcular-notas-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      let asigId = this.dataset.asig;
+      currentAsignaturaId = asigId;
+      let asig = asignaturas.find(a => a.id == asigId);
+      asigNombre.textContent = asig ? asig.nombre : '';
+      notasList.innerHTML = '';
+      // Precargar simulación si existe
+      let simulacion = simulaciones.find(s => String(s.asignatura_id || s.asignaturaId) === String(asigId));
+      if (simulacion && simulacion.evaluaciones && simulacion.evaluaciones.length) {
+        simulacion.evaluaciones.forEach(ev => agregarNota(ev));
+      } else {
+        agregarNota();
+      }
+      popup.style.display = 'flex';
+      setTimeout(() => popup.classList.add('popup-open'), 10);
+      actualizarPromedio();
+    });
+  });
+
+  if (cerrarPopupBtn) cerrarPopupBtn.onclick = cerrarPopup;
+  function cerrarPopup() {
+    popup.classList.remove('popup-open');
+    setTimeout(() => { popup.style.display = 'none'; }, 180);
+  }
+  popup && popup.addEventListener('click', function(e) {
+    if (e.target === popup) cerrarPopup();
+  });
+
+  // --- FUNCIONES NOTAS ---
+  function agregarNota(ev = {}) {
+    let div = document.createElement('div');
+    div.className = 'nota-row';
+    div.style.marginBottom = '18px';
+    div.innerHTML = `
+      <input type="text" placeholder="Nombre" class="nota-nombre" style="width:120px; font-size:1.08em; margin-right:12px;" value="${ev.nombre || ''}">
+      <input type="number" placeholder="%" class="nota-porcentaje" min="1" max="100" style="width:70px; font-size:1.08em; margin-right:12px;" value="${ev.porcentaje || ''}">
+      <input type="text" placeholder="Ej: 6.5" class="nota-valor" style="width:70px; font-size:1.08em;" maxlength="4" inputmode="decimal" value="${ev.nota != null ? ev.nota : ''}">
+      <button type="button" class="borrar-nota btn-azul" style="margin-left:10px; padding:2px 10px; font-size:1.2em;">&times;</button>
+    `;
+    notasList.appendChild(div);
+
+    div.querySelector('.borrar-nota').onclick = function() {
+      div.remove();
+      actualizarPromedio();
+    };
+    div.querySelector('.nota-valor').addEventListener('input', function() {
+      let val = this.value.replace(',', '.');
+      if (!/^([1-7](\.[0-9]{0,2})?)?$/.test(val)) {
+        this.value = '';
+      } else if (parseFloat(val) > 7) {
+        this.value = '7.0';
+      }
+      actualizarPromedio();
+    });
+    div.querySelectorAll('input').forEach(input => {
+      input.oninput = actualizarPromedio;
+    });
+  }
+
+  document.getElementById('agregar-nota').onclick = function() {
+    agregarNota();
+  };
+
+  function actualizarPromedio() {
+    let rows = notasList.querySelectorAll('.nota-row');
+    let total = 0, suma = 0;
+    rows.forEach(row => {
+      let p = parseFloat(row.querySelector('.nota-porcentaje').value) || 0;
+      let nRaw = row.querySelector('.nota-valor').value.replace(',', '.');
+      let n = parseFloat(nRaw) || 0;
+      if(p > 0 && n >= 1 && n <= 7) {
+        suma += n * (p/100);
+        total += p;
+      }
+    });
+    promedioNotas.textContent = total > 0 ? (suma * (100/total)).toFixed(2) : '-';
+  }
+
+  // --- GUARDAR SIMULACIÓN ---
+  document.getElementById('guardar-simulacion').onclick = function(e) {
+    e.preventDefault();
+    let rows = notasList.querySelectorAll('.nota-row');
+    let evaluaciones = [];
+    let valido = true;
+    rows.forEach(row => {
+      let nombre = row.querySelector('.nota-nombre');
+      let porcentaje = row.querySelector('.nota-porcentaje');
+      let nota = row.querySelector('.nota-valor');
+      nombre.style.borderColor = porcentaje.style.borderColor = nota.style.borderColor = '#b0b0b0';
+      let nombreVal = nombre.value.trim();
+      let porcentajeVal = parseFloat(porcentaje.value);
+      let notaVal = parseFloat(nota.value.replace(',', '.'));
+      if (!nombreVal) {
+        nombre.style.borderColor = '#c0392b';
+        valido = false;
+      }
+      if (isNaN(porcentajeVal) || porcentajeVal < 1 || porcentajeVal > 100) {
+        porcentaje.style.borderColor = '#c0392b';
+        valido = false;
+      }
+      if (isNaN(notaVal) || notaVal < 1 || notaVal > 7) {
+        nota.style.borderColor = '#c0392b';
+        valido = false;
+      }
+      evaluaciones.push({nombre: nombreVal, porcentaje: porcentajeVal, nota: notaVal});
+    });
+    if (!evaluaciones.length || !valido) {
+      mostrarToast('Completa correctamente todas las evaluaciones.', 'error');
+      return;
+    }
+    fetch('/mis-asignaturas/guardar-simulacion', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        asignatura_id: currentAsignaturaId,
+        evaluaciones
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.ok) {
+        // Actualiza simulaciones en el frontend
+        const nuevaSimulacion = {
+          asignatura_id: currentAsignaturaId,
+          evaluaciones
+        };
+        let idx = simulaciones.findIndex(s => String(s.asignatura_id || s.asignaturaId) === String(currentAsignaturaId));
+        if (idx >= 0) {
+          simulaciones[idx] = nuevaSimulacion;
+        } else {
+          simulaciones.push(nuevaSimulacion);
+        }
+        mostrarToast('¡Simulación guardada!', 'success');
+        cerrarPopup();
+      } else {
+        mostrarToast('Error al guardar simulación', 'error');
+      }
+    })
+    .catch(() => mostrarToast('Error al guardar simulación', 'error'));
+  };
+
+  // --- TOAST VISUAL ---
+  function mostrarToast(msg, tipo) {
+    let toast = document.createElement('div');
+    toast.className = 'toast-' + (tipo === 'error' ? 'error' : 'success');
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3200);
+  }
+
+  // --- MODAL EVALUACIÓN GUARDAR ---
+  document.getElementById('form-evaluacion').onsubmit = function(e) {
+    e.preventDefault();
+    let nombre = document.getElementById('eval-nombre');
+    let tipo = document.getElementById('eval-tipo');
+    let fecha = document.getElementById('eval-fecha');
+    let asignatura = document.getElementById('eval-asignatura');
+    let desc = document.getElementById('eval-desc');
+    let valido = true;
+    [nombre, tipo, fecha, asignatura].forEach(input => input.style.borderColor = '#b0b0b0');
+    if (!nombre.value.trim()) { nombre.style.borderColor = '#c0392b'; valido = false; }
+    if (!tipo.value) { tipo.style.borderColor = '#c0392b'; valido = false; }
+    if (!fecha.value) { fecha.style.borderColor = '#c0392b'; valido = false; }
+    if (!asignatura.value) { asignatura.style.borderColor = '#c0392b'; valido = false; }
+    if (!valido) { mostrarToast('Completa todos los campos obligatorios.', 'error'); return; }
+
+    fetch('/mis-asignaturas/guardar-evaluacion', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        asignatura_id: asignatura.value,
+        nombre: nombre.value.trim(),
+        tipo: tipo.value,
+        fecha: fecha.value,
+        descripcion: desc.value.trim()
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.ok) {
+        mostrarToast('¡Evaluación guardada!', 'success');
+        modalEval.style.display = 'none';
+        // Aquí podrías actualizar la vista sin recargar si lo deseas
+      } else {
+        mostrarToast('Error al guardar evaluación', 'error');
+      }
+    })
+    .catch(() => mostrarToast('Error al guardar evaluación', 'error'));
+  };
+
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-eliminar-eval')) {
+      const evalId = e.target.dataset.evalid;
+      if (confirm('¿Eliminar esta evaluación?')) {
+        fetch('/mis-asignaturas/eliminar-evaluacion', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ id: evalId })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.ok) {
+            mostrarToast('Evaluación eliminada', 'success');
+            location.reload();
+          } else {
+            mostrarToast('No se pudo eliminar', 'error');
+          }
+        });
+      }
+    }
+  });
+});
+</script>

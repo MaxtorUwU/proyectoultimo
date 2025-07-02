@@ -1,0 +1,76 @@
+<main style="max-width:700px; margin:48px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:38px 30px 28px 30px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; margin-bottom:18px; text-align:center;">Evaluaciones</h2>
+  <form action="/profesor/evaluaciones/crear" method="POST" style="margin-bottom:24px; display:flex; flex-wrap:wrap; gap:12px 16px; align-items:flex-end; justify-content:center;">
+    <select name="asignatura_id" required style="padding:8px 14px; border-radius:7px; border:1.5px solid #6a89cc; font-size:1em;">
+      <option value="">Selecciona asignatura</option>
+      {{#each asignaturas}}
+        <option value="{{id}}">{{nombre}}</option>
+      {{/each}}
+    </select>
+    <input type="text" name="titulo" placeholder="Título evaluación" required style="padding:8px 14px; border-radius:7px; border:1.5px solid #6a89cc; font-size:1em;">
+    <input type="date" name="fecha" required style="padding:8px 14px; border-radius:7px; border:1.5px solid #6a89cc; font-size:1em;">
+    <button type="submit" style="background:linear-gradient(90deg,#3b5998 60%,#6a89cc 100%); color:#fff; border:none; border-radius:7px; padding:9px 22px; font-weight:700; font-size:1.08em; box-shadow:0 2px 8px rgba(42,63,102,0.09); transition:background 0.18s;">Crear evaluación</button>
+  </form>
+  <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden;">
+    <thead>
+      <tr style="background:#eaf0fa;">
+        <th style="padding:10px;">Asignatura</th>
+        <th style="padding:10px;">Título</th>
+        <th style="padding:10px;">Fecha</th>
+        <th style="padding:10px;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each evaluaciones}}
+        <tr style="border-bottom:1px solid #eaf0fa;">
+          <td style="padding:10px;">{{asignatura_nombre}}</td>
+          <td style="padding:10px;">{{titulo}}</td>
+          <td style="padding:10px;">{{fechaBonita fecha}}</td>
+          <td style="padding:10px;">
+            <form action="/profesor/evaluaciones/{{id}}/eliminar" method="POST" style="display:inline;">
+              <button
+                type="submit"
+                onclick="return confirmarEliminarEvaluacion(this)"
+                style="background:#c0392b; color:#fff; border:none; border-radius:7px; padding:7px 18px; font-weight:600; font-size:1em; box-shadow:0 1px 4px rgba(42,63,102,0.09); transition:background 0.18s; display:flex; align-items:center; gap:6px;"
+                onmouseover="this.style.background='#a93226';"
+                onmouseout="this.style.background='#c0392b';"
+              >
+                <svg width="17" height="17" fill="none" viewBox="0 0 20 20" style="vertical-align:middle;">
+                  <path d="M6 8v6m4-6v6m4-6v6M3 6h14M5 6V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                Eliminar
+              </button>
+            </form>
+          </td>
+        </tr>
+      {{else}}
+        <tr><td colspan="4" style="text-align:center; color:#888; padding:18px;">No hay evaluaciones registradas.</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <a href="/profesor/dashboard"
+     style="display:inline-block; margin-bottom:28px; background:linear-gradient(90deg,#6a89cc 60%,#3b5998 100%); color:#fff; border:none; border-radius:8px; padding:11px 30px; font-weight:700; font-size:1.13em; text-decoration:none; box-shadow:0 2px 8px rgba(42,63,102,0.09); transition:background 0.18s, transform 0.12s; letter-spacing:0.5px;">
+    ← Volver al panel
+  </a>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function confirmarEliminarEvaluacion(btn) {
+    event.preventDefault();
+    Swal.fire({
+      title: '¿Eliminar evaluación?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#c0392b',
+      cancelButtonColor: '#6a89cc',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        btn.closest('form').submit();
+      }
+    });
+    return false;
+  }
+</script>

@@ -1,0 +1,261 @@
+<main class="home-main" style="margin-top: 64px;">
+  <div class="home-flex">
+    <!-- Card principal (bienvenida, descripción, botones) -->
+    <section class="home-card home-hero-card home-card-login-style home-card-bordered">
+      <div class="home-hero-content">
+        <h1 class="home-title">
+          Bienvenido a <span>MiPortalEstudiantil</span>
+        </h1>
+        <p class="home-desc">
+          ¿Cansado de esperar el portal oficial? Aquí puedes gestionar tus clases,
+          simular tu horario y calcular tus notas <b>de forma rápida y moderna</b>.
+        </p>
+        <ul class="home-list">
+          <li>✔️ Inscribe y retira asignaturas al instante</li>
+          <li>✔️ Visualiza tu horario semanal y diario</li>
+          <li>✔️ Simula tu horario antes de inscribirte</li>
+          <li>✔️ Calcula tus notas y promedios fácilmente</li>
+        </ul>
+        <div class="home-btns">
+          <a href="/auth/login" class="form-button home-btn-principal">Iniciar Sesión</a>
+          <a href="/auth/register" class="form-button home-btn-secundario" style="margin-left:0;">Registrarse</a>
+        </div>
+        <div class="home-ayuda-link">
+          <a href="/ayuda" class="form-switch home-btn-ayuda">¿Necesitas ayuda?</a>
+        </div>
+      </div>
+    </section>
+    <!-- Cuadritos de features en grid 2x2 -->
+    <aside class="home-features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">📚</span>
+        <h3>Inscripción fácil</h3>
+        <p>Busca y gestiona tus asignaturas de manera rápida y sencilla.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🗓️</span>
+        <h3>Simula tu horario</h3>
+        <p>Arma tu horario ideal antes de inscribirte y evita sorpresas.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📝</span>
+        <h3>Cálculo de notas</h3>
+        <p>Agrega tus evaluaciones y calcula tu promedio en cada ramo.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>Rápido y moderno</h3>
+        <p>Olvídate de la lentitud: todo carga en segundos y sin estrés.</p>
+      </div>
+    </aside>
+  </div>
+  <footer class="home-footer">
+    <p>&copy; 2025 MiPortalEstudiantil</p>
+  </footer>
+</main>
+<div style="position:fixed; bottom:18px; right:18px; z-index:100;">
+  <a href="/admin/login"
+     style="background:#f7f9fc; color:#3b5998; border:1.5px solid #3b5998; border-radius:7px; padding:7px 18px; font-size:0.98em; font-weight:600; text-decoration:none; opacity:0.7; transition:opacity 0.2s;">
+    AdminLogin
+  </a>
+</div>
+<style>
+.home-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0 32px 0;
+}
+.home-flex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 38px;
+  flex-wrap: wrap;
+}
+.home-card-login-style {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 18px rgba(42,63,102,0.09);
+  padding: 38px 38px 28px 38px;
+  min-width: 340px;
+  max-width: 520px;
+  flex: 1 1 380px;
+  margin-bottom: 0;
+  border: 1.5px solid #eaf0fa;
+}
+.home-card-bordered {
+  border: 2.5px solid #3b5998 !important;
+  box-shadow: 0 4px 24px rgba(42,63,102,0.13);
+}
+.home-hero-content {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: left;
+}
+.home-title {
+  font-size: 2.2em;
+  margin-bottom: 18px;
+  color: #2d4373;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.home-title span {
+  color: #3b5998;
+}
+.home-desc {
+  font-size: 1.13em;
+  color: #444;
+  margin-bottom: 22px;
+}
+.home-list {
+  margin-bottom: 28px;
+  color: #3b5998;
+  font-size: 1.08em;
+  line-height: 1.7;
+  padding-left: 0;
+  list-style: none;
+  text-align: left;
+  display: block;
+}
+.home-list li {
+  margin-bottom: 4px;
+}
+.home-btns {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+.home-btn-principal {
+  font-size: 1.1em;
+  padding: 12px 38px;
+  border-radius: 8px;
+  background: #3b5998;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2px 8px rgba(42,63,102,0.07);
+  transition: background 0.18s, color 0.18s;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 140px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.home-btn-principal:hover {
+  background: #2d4373;
+  color: #fff;
+}
+.home-btn-secundario {
+  font-size: 1.1em;
+  padding: 12px 38px;
+  border-radius: 8px;
+  background: #eaf0fa;
+  color: #3b5998;
+  font-weight: 600;
+  border: 1.5px solid #3b5998;
+  box-shadow: 0 2px 8px rgba(42,63,102,0.07);
+  transition: background 0.18s, color 0.18s, border 0.18s;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 140px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.home-btn-secundario:hover {
+  background: #3b5998;
+  color: #fff;
+  border: 1.5px solid #3b5998;
+}
+.home-ayuda-link {
+  margin-top: 18px;
+  text-align: left;
+}
+.home-btn-ayuda {
+  color: #3b5998;
+  font-weight: 500;
+  text-decoration: underline;
+  font-size: 1em;
+  transition: color 0.18s;
+}
+.home-btn-ayuda:hover {
+  color: #2d4373;
+}
+.home-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 22px;
+  min-width: 260px;
+  max-width: 520px;
+  flex: 1 1 320px;
+}
+.feature-card {
+  background: #f7f9fc;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(42,63,102,0.07);
+  padding: 22px 14px 18px 14px;
+  text-align: center;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 1.5px solid #eaf0fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.feature-card:hover {
+  box-shadow: 0 6px 24px rgba(42,63,102,0.13);
+  transform: translateY(-4px) scale(1.03);
+  border-color: #b6c6e6;
+}
+.feature-icon {
+  font-size: 2.2em;
+  margin-bottom: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  padding: 10px 0;
+  width: 54px;
+  height: 54px;
+  line-height: 34px;
+  background: #eaf0fa;
+}
+.home-footer {
+  margin-top: 38px;
+  color: #888;
+  font-size: 0.98em;
+  text-align: center;
+}
+@media (max-width: 1000px) {
+  .home-main { margin-top: 48px; }
+  .home-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .home-features-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 12px;
+    gap: 14px;
+  }
+}
+@media (max-width: 700px) {
+  .home-card-login-style {
+    padding: 18px 8px 12px 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .home-hero-content {
+    max-width: 100%;
+  }
+  .home-features-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 12px;
+  }
+}
+</style>

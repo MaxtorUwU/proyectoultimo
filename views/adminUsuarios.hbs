@@ -1,0 +1,121 @@
+<main style="max-width:800px; margin:48px auto 0 auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:40px 36px 28px 36px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; margin-bottom:18px;">Usuarios registrados</h2>
+  {{#if exito}}
+    <div id="msg-exito" style="background:#e6f9ed; color:#217a4b; border-radius:8px; padding:10px 22px; font-weight:600; box-shadow:0 2px 8px rgba(42,63,102,0.13); font-size:1em; margin:18px auto 18px auto; max-width:320px; text-align:center;">
+      {{exito}}
+    </div>
+  {{/if}}
+  <h3 style="color:#6a89cc; margin-bottom:8px;">Alumnos</h3>
+  <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+    <thead>
+      <tr style="background:#eaf0fa;">
+        <th style="padding:8px;">ID</th>
+        <th style="padding:8px;">Nombre</th>
+        <th style="padding:8px;">Email</th>
+        <th style="padding:8px;">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each alumnos}}
+        <tr style="border-bottom:1px solid #eaf0fa;">
+          <td style="padding:8px;">{{id}}</td>
+          <td style="padding:8px;">{{username}}</td>
+          <td style="padding:8px;">{{email}}</td>
+          <td style="padding:8px;">
+            <button class="btn-eliminar" data-id="{{id}}" data-nombre="{{username}}">
+              <span style="display:inline-block; vertical-align:middle; margin-right:4px; color:#fff;">🗑️</span>
+              <span style="vertical-align:middle;">Eliminar</span>
+            </button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <h3 style="color:#6a89cc; margin-bottom:8px;">Profesores</h3>
+  <table style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr style="background:#eaf0fa;">
+        <th style="padding:8px;">ID</th>
+        <th style="padding:8px;">Nombre</th>
+        <th style="padding:8px;">Email</th>
+        <th style="padding:8px;">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each profesores}}
+        <tr style="border-bottom:1px solid #eaf0fa;">
+          <td style="padding:8px;">{{id}}</td>
+          <td style="padding:8px;">{{username}}</td>
+          <td style="padding:8px;">{{email}}</td>
+          <td style="padding:8px;">
+            <button class="btn-eliminar" data-id="{{id}}" data-nombre="{{username}}">
+              <span style="display:inline-block; vertical-align:middle; margin-right:4px; color:#fff;">🗑️</span>
+              <span style="vertical-align:middle;">Eliminar</span>
+            </button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div style="margin-top:24px; text-align:center;">
+    <a href="/admin/dashboard" class="btn-logout" style="min-width:160px; display:inline-block; background:#eaf0fa; color:#3b5998; border:1.5px solid #3b5998; border-radius:8px; padding:10px 0; font-weight:600; text-decoration:none; transition:background 0.18s, color 0.18s;">
+      Volver al panel
+    </a>
+  </div>
+</main>
+
+<!-- Modal de confirmación -->
+<div id="modal-confirm" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(42,63,102,0.18); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:14px; padding:32px 28px; box-shadow:0 6px 32px rgba(42,63,102,0.18); max-width:340px; text-align:center;">
+    <div style="font-size:1.25em; color:#3b5998; font-weight:700; margin-bottom:14px;">¿Eliminar usuario?</div>
+    <div id="modal-user" style="color:#6a89cc; margin-bottom:18px;"></div>
+    <div style="color:#b30000; margin-bottom:18px;">Esta acción no se puede deshacer.</div>
+    <form id="form-eliminar" method="POST">
+      <button type="submit" style="background:#b30000; color:#fff; border:none; border-radius:7px; padding:8px 22px; font-weight:600; margin-right:10px;">Eliminar</button>
+      <button type="button" id="cancelar-modal" style="background:#eaf0fa; color:#3b5998; border:none; border-radius:7px; padding:8px 22px; font-weight:600;">Cancelar</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .btn-eliminar {
+    background: linear-gradient(90deg, #e53935 60%, #b71c1c 100%);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 7px 18px;
+    font-weight: 600;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 1px 6px rgba(42,63,102,0.07);
+    transition: background 0.18s, transform 0.13s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-eliminar:hover {
+    background: linear-gradient(90deg, #b71c1c 60%, #e53935 100%);
+    transform: scale(1.06);
+  }
+</style>
+
+<script>
+  // Modal confirmación
+  document.querySelectorAll('.btn-eliminar').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const nombre = this.dataset.nombre;
+      document.getElementById('modal-user').textContent = nombre ? 'Usuario: ' + nombre : '';
+      const form = document.getElementById('form-eliminar');
+      form.action = '/admin/usuarios/eliminar/' + id;
+      document.getElementById('modal-confirm').style.display = 'flex';
+    });
+  });
+  document.getElementById('cancelar-modal').onclick = function() {
+    document.getElementById('modal-confirm').style.display = 'none';
+  };
+  // Mensaje de éxito se oculta automáticamente
+  if(document.getElementById('msg-exito')){
+    setTimeout(()=>{ document.getElementById('msg-exito').style.display='none'; }, 2500);
+  }
+</script>

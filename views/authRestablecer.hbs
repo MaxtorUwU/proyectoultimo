@@ -1,0 +1,39 @@
+<main class="main-content-area">
+  <div class="perfil-container">
+    <h2 style="color:#3b5998; text-align:center; margin-bottom:18px;">Restablecer contraseña</h2>
+    <form action="/auth/restablecer/{{token}}" method="POST" style="margin-top:0;">
+      <div class="input-group">
+        <label for="password">Nueva contraseña</label>
+        <input id="password" name="password" type="password" required autocomplete="new-password" placeholder="Escribe tu nueva contraseña">
+      </div>
+      <button type="submit" class="btn-editar" style="width:100%; margin-top:10px;">Guardar nueva contraseña</button>
+    </form>
+    <div style="margin-top:22px; text-align:center;">
+      <a href="/auth/login" class="btn-logout" style="min-width:160px;">Volver al login</a>
+    </div>
+  </div>
+</main>
+<style>
+  .perfil-container {
+    max-width:400px; margin:40px auto 0 auto; background:#fff; border-radius:18px;
+    box-shadow:0 4px 24px rgba(42,63,102,0.13); padding:36px 32px 28px 32px; border:2.5px solid #3b5998;
+    animation: fadeInPerfil 0.3s;
+  }
+  .input-group { margin-bottom: 18px; display: flex; flex-direction: column; }
+  .input-group label { color: #3b5998; font-weight: 600; margin-bottom: 6px; }
+  .input-group input {
+    padding: 10px 14px; border-radius: 7px; border: 1.5px solid #6a89cc; font-size: 1.08em; color: #3b5998; background: #f7f9fc; transition: border 0.18s;
+  }
+  .input-group input:focus { border-color: #3b5998; outline: none; background: #eaf0fa; }
+  .btn-editar, .btn-logout {
+    display: inline-block; padding: 10px 0; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.07em; min-width: 160px; text-align: center; transition: background 0.18s, color 0.18s; box-sizing: border-box; border: none; cursor: pointer;
+  }
+  .btn-editar { background: #3b5998; color: #fff;}
+  .btn-editar:hover { background: #6a89cc; }
+  .btn-logout { background: #eaf0fa; color: #3b5998; border: 1.5px solid #3b5998;}
+  .btn-logout:hover { background: #3b5998; color: #fff; }
+  @keyframes fadeInPerfil {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+</style>

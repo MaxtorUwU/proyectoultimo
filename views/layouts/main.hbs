@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/css/Registro.css" />
+  <link rel="stylesheet" href="/css/Home.css" />
+</head>
+<body>
+  {{#if isAdmin}}
+    <nav class="navbar" style="background:#3b5998;">
+      <div class="nav-container">
+        <a href="/admin/dashboard" class="nav-logo" style="color:#fff;">MiPortalEstudiantil</a>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/auth/logout" class="nav-link" style="font-weight:600; color:#fff;">Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  {{else}}
+    {{#if isHome}}
+      <nav class="navbar">
+        <div class="nav-container">
+          <a href="/" class="nav-logo">MiPortalEstudiantil</a>
+          <ul class="nav-menu">
+            <li class="nav-item"><a href="/ayuda" class="nav-link">Ayuda</a></li>
+          </ul>
+        </div>
+      </nav>
+    {{else}}
+      <nav class="navbar">
+        <div class="nav-container">
+          {{!-- Logo redirige según tipo de usuario --}}
+          {{#if usuario}}
+            {{#if (eq usuario.role "profesor")}}
+              <a href="/profesor/dashboard" class="nav-logo">MiPortalEstudiantil</a>
+            {{else}}
+              <a href="/" class="nav-logo">MiPortalEstudiantil</a>
+            {{/if}}
+          {{else}}
+            <a href="/" class="nav-logo">MiPortalEstudiantil</a>
+          {{/if}}
+          <ul class="nav-menu">
+            {{#if isDashboard}}
+              <li class="nav-item"><a href="/dashboard" class="nav-link">Mi Horario</a></li>
+              <li class="nav-item"><a href="/asignaturas" class="nav-link">Inscribir</a></li>
+              <li class="nav-item"><a href="/mis-asignaturas" class="nav-link">Mis asignaturas</a></li>
+              <li class="nav-item"><a href="/perfil" class="nav-link">Perfil</a></li>
+              <li class="nav-item"><a href="/auth/logout" class="nav-link" style="font-weight:600;">Cerrar sesión</a></li>
+              <li class="nav-item"><a href="/ayuda" class="nav-link">Ayuda</a></li>
+            {{else}}
+              <li class="nav-item"><a href="/ayuda" class="nav-link">Ayuda</a></li>
+            {{/if}}
+          </ul>
+        </div>
+      </nav>
+    {{/if}}
+  {{/if}}
+  {{{body}}}
+</body>
+</html>

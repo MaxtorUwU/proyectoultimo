@@ -1,0 +1,137 @@
+<main class="main-content-area">
+  <div class="form-container" id="register-container">
+    <h2 class="form-title">Crear Nueva Cuenta</h2>
+    {{#if error}}
+      <p class="form-message error">{{error}}</p>
+    {{/if}}
+    {{#if successMessage}}
+      <p class="form-message success" id="register-success">{{successMessage}}</p>
+    {{/if}}
+    <p id="register-error" class="form-message error" style="display:none;font-size:0.93em;padding:4px 0;margin-bottom:6px;"></p>
+    <form id="registerForm" action="/auth/register" method="POST" autocomplete="off">
+      <!-- Paso 1 -->
+      <div class="step active" id="step-1">
+        <div class="form-group">
+          <label for="registerUsername">Usuario</label>
+          <input type="text" id="registerUsername" name="username" required placeholder="Nombre de usuario" value="{{oldData.username}}">
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Correo electrónico</label>
+          <input type="email" id="registerEmail" name="email" required placeholder="ejemplo@correo.com" value="{{oldData.email}}">
+        </div>
+        <div class="form-group">
+          <label for="registerRol">Rol</label>
+          <select id="registerRol" name="role" required>
+            <option value="">Selecciona un rol</option>
+            <option value="alumno" {{#if (eq oldData.role "alumno")}}selected{{/if}}>Alumno</option>
+            <option value="profesor" {{#if (eq oldData.role "profesor")}}selected{{/if}}>Profesor</option>
+          </select>
+        </div>
+        <button type="button" class="form-button" id="nextBtn">Siguiente</button>
+      </div>
+      <!-- Paso 2 -->
+      <div class="step" id="step-2" style="display:none;">
+        <div class="form-group">
+          <label for="registerPassword">Contraseña</label>
+          <input type="password" id="registerPassword" name="password" required placeholder="Contraseña">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar contraseña</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repite la contraseña">
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="acceptTerms" name="acceptTerms" required {{#if oldData.acceptTerms}}checked{{/if}}>
+          <label for="acceptTerms">Acepto los <a href="/terminos" target="_blank">términos y condiciones</a></label>
+        </div>
+        <button class="form-button" type="submit">Registrarse</button>
+        <button type="button" class="form-button" id="backBtn" style="background:#888;margin-top:8px;">Atrás</button>
+      </div>
+    </form>
+    <p class="form-switch" style="margin-top:8px;font-size:0.95em;">
+       <a href="/auth/login">¿Ya tienes cuenta? Inicia sesión aquí</a>
+    </p>
+  </div>
+</main>
+
+<style>
+  .form-switch a {
+    pointer-events: auto !important;
+    color: #3b5998;
+    text-decoration: underline;
+    cursor: pointer;
+    z-index: 10;
+    position: relative;
+  }
+  /* Asegura que ningún .step esté encima cuando está oculto */
+
+</style>
+
+<script>
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+  const errorMsg = document.getElementById('register-error');
+
+  nextBtn?.addEventListener('click', function() {
+    errorMsg.style.display = 'none';
+    const username = document.getElementById('registerUsername').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const role = document.getElementById('registerRol').value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!username || !email || !role) {
+      errorMsg.textContent = 'Completa todos los campos.';
+      errorMsg.style.display = 'block';
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      errorMsg.textContent = 'Email inválido.';
+      errorMsg.style.display = 'block';
+      return;
+    }
+    step1.style.display = 'none';
+    step2.style.display = 'block';
+  });
+
+  backBtn?.addEventListener('click', function() {
+    errorMsg.style.display = 'none';
+    step2.style.display = 'none';
+    step1.style.display = 'block';
+  });
+
+  const registerForm = document.getElementById('registerForm');
+  registerForm?.addEventListener('submit', function(event) {
+    errorMsg.style.display = 'none';
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const termsCheckbox = document.getElementById('acceptTerms');
+    if (password !== confirmPassword) {
+      errorMsg.textContent = 'Las contraseñas no coinciden.';
+      errorMsg.style.display = 'block';
+      event.preventDefault();
+      return;
+    }
+    if (password.length < 6) {
+      errorMsg.textContent = 'Mínimo 6 caracteres.';
+      errorMsg.style.display = 'block';
+      event.preventDefault();
+      return;
+    }
+    if (!termsCheckbox.checked) {
+      errorMsg.textContent = 'Acepta los términos.';
+      errorMsg.style.display = 'block';
+      event.preventDefault();
+      return;
+    }
+  });
+
+  // Oculta el mensaje de éxito después de 2.5 segundos
+  window.addEventListener('DOMContentLoaded', function() {
+    const msg = document.getElementById('register-success');
+    if (msg) {
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 2500);
+    }
+  });
+</script>

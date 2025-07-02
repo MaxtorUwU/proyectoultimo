@@ -1,0 +1,29 @@
+<a href="/profesor/dashboard"
+   style="display:inline-block; margin-bottom:28px; background:linear-gradient(90deg,#6a89cc 60%,#3b5998 100%); color:#fff; border:none; border-radius:8px; padding:11px 30px; font-weight:700; font-size:1.13em; text-decoration:none; box-shadow:0 2px 8px rgba(42,63,102,0.09); transition:background 0.18s, transform 0.12s; letter-spacing:0.5px;">
+  ← Volver al panel
+</a>
+<main style="max-width:800px; margin:48px auto 0 auto; background:linear-gradient(120deg,#f7f9fc 60%,#eaf0fa 100%); border-radius:22px; box-shadow:0 6px 32px rgba(42,63,102,0.14); padding:48px 44px 36px 44px; border:2.5px solid #3b5998;">
+  <h2 style="color:#3b5998; margin-bottom:18px; text-align:center;">Alumnos de {{asignatura.nombre}}</h2>
+  <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden;">
+    <thead>
+      <tr style="background:#eaf0fa;">
+        <th style="padding:12px;">Nombre</th>
+        <th style="padding:12px;">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each alumnos}}
+        <tr style="border-bottom:1px solid #eaf0fa;">
+          <td style="padding:12px;">{{username}}</td>
+          <td style="padding:12px;">{{email}}</td>
+        </tr>
+      {{else}}
+        <tr><td colspan="2" style="text-align:center; color:#888; padding:22px;">No hay alumnos inscritos.</td></tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <a href="/profesor/dashboard"
+     style="display:inline-block; margin-top:28px; background:linear-gradient(90deg,#6a89cc 60%,#3b5998 100%); color:#fff; border:none; border-radius:8px; padding:11px 30px; font-weight:700; font-size:1.13em; text-decoration:none; box-shadow:0 2px 8px rgba(42,63,102,0.09); transition:background 0.18s, transform 0.12s; letter-spacing:0.5px;">
+    ← Volver al panel
+  </a>
+</main>
