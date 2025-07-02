@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disponibilidad de Asignaturas</title>
+    <link rel="stylesheet" href="css/Disponibilidad.css"> <!-- Enlazamos el MISMO CSS del horario -->
+
+</head>
+<body>
+
+    <h1 class="title">Disponibilidad de Asignaturas</h1>
+
+    <div class="content-container">
+        <p style="text-align: center; margin-bottom: 20px;">
+            Selecciona las asignaturas que deseas inscribir para el próximo período.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Asignatura</th>
+                    <th>Créditos</th>
+                    <th>Cupos Disponibles</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>INF-317</td>
+                    <td>Sistemas Operativos Avanzados</td>
+                    <td>4</td>
+                    <td>12</td>
+                    <td><button class="btn-inscribir">Inscribir</button></td>
+                </tr>
+                <tr>
+                    <td>MAT-301</td>
+                    <td>Matemáticas Discretas II</td>
+                    <td>3</td>
+                    <td>20</td>
+                    <td><button class="btn-inscribir">Inscribir</button></td>
+                </tr>
+                <tr>
+                    <td>FIS-205</td>
+                    <td>Física Moderna</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td><button class="btn-inscribir">Inscribir</button></td>
+                </tr>
+                <tr>
+                    <td>HUM-103</td>
+                    <td>Ética Profesional</td>
+                    <td>2</td>
+                    <td>30</td>
+                    <td><button class="btn-inscribir">Inscribir</button></td>
+                </tr>
+                <tr>
+                    <td>PRG-404</td>
+                    <td>Desarrollo de Videojuegos</td>
+                    <td>4</td>
+                    <td class="no-cupos">0</td>
+                    <td><button class="btn-inscribir" disabled>Completo</button></td>
+                </tr>
+                <tr>
+                    <td>DBA-210</td>
+                    <td>Administración de Bases de Datos</td>
+                    <td>3</td>
+                    <td>18</td>
+                    <td><button class="btn-inscribir">Inscribir</button></td>
+                </tr>
+                <!-- Puedes añadir más filas según sea necesario -->
+                <!-- Ejemplo de asignatura sin cupos -->
+
+            </tbody>
+        </table>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn-inscribir" style="padding: 12px 30px; font-size: 1.1em;">Finalizar Inscripción</button>
+        </div>
+    </div>
+
+    <script>
+        // Script para manejar la lógica de inscripción (opcional, solo front-end)
+        document.querySelectorAll('.btn-inscribir').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.textContent === 'Inscribir') {
+                    // Simulación: Cambiar el texto y quizás el estado del botón
+                    // En una aplicación real, aquí harías una llamada a un backend
+                    this.textContent = 'Inscrito';
+                    this.style.backgroundColor = '#28a745'; // Verde para indicar éxito (o gris si quieres deshabilitar)
+                    this.style.color = '#ffffff';
+                    // this.disabled = true; // Opcional: deshabilitar después de inscribir
+                    alert('Has inscrito la asignatura: ' + this.closest('tr').cells[1].textContent);
+                } else if (this.textContent === 'Inscrito' && !this.disabled) {
+                    // Lógica para "desinscribir" si se quiere implementar
+                    // this.textContent = 'Inscribir';
+                    // this.style.backgroundColor = '#EEEB09';
+                    // this.style.color = '#1C1A1A';
+                    // alert('Has cancelado la inscripción de: ' + this.closest('tr').cells[1].textContent);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+    

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso de Usuarios - Portal Estudiantil</title>
+    <link rel="stylesheet" href="css/Login.css"> <!-- Enlace al archivo CSS -->
+</head>
+
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">MiPortalEstudiantil</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="acceso.html" class="nav-link active">Acceso</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Ayuda</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+
+    <!-- Contenedor principal del formulario -->
+    <div class="main-content-area">
+
+        <!-- Formulario de inicio de sesión -->
+        <div class="form-container" id="login-container">
+            <h2 class="form-title">Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsuario">Usuario o Email:</label>
+                    <input type="text" id="loginUsuario" name="loginUsuario" placeholder="Tu usuario o email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Tu contraseña" required>
+                </div>
+                <button type="submit" class="form-button">Ingresar</button>
+                <p class="form-switch">¿No tienes cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+                <p class="form-link"><a href="#">¿Olvidaste tu contraseña?</a></p>
+            </form>
+        </div>
+
+        <!-- Formulario de registro de nuevo usuario (inicialmente oculto) -->
+        <div class="form-container" id="register-container" style="display: none;">
+            <h2 class="form-title">Registro de Nuevo Usuario</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsuario">Nombre de Usuario:</label>
+                    <input type="text" id="registerUsuario" name="registerUsuario" placeholder="Elige un nombre de usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email:</label>
+                    <input type="email" id="registerEmail" name="registerEmail" placeholder="tu_correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña:</label>
+                    <input type="password" id="registerPassword" name="registerPassword" placeholder="Mínimo 6 caracteres" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repite la contraseña" required>
+                </div>
+                <button type="submit" class="form-button">Registrarme</button>
+                <p class="form-switch">¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia sesión aquí</a></p>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="page-footer">
+        <p>© 2023 Portal Estudiantil. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script para alternar entre formularios -->
+    <script>
+        // Referencias a los contenedores de los formularios
+        const loginContainer = document.getElementById('login-container');
+        const registerContainer = document.getElementById('register-container');
+        const showRegisterLink = document.getElementById('showRegister');
+        const showLoginLink = document.getElementById('showLogin');
+
+        // Mostrar formulario de registro
+        showRegisterLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+            registerContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Mostrar formulario de inicio de sesión
+        showLoginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            registerContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            loginContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    </script>
+
+</body>
+
+</html>

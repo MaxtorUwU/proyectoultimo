@@ -1,0 +1,106 @@
+      <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario Escolar Interactivo</title>
+    <link rel="stylesheet" href="css/Horario.css"> <!-- Enlazamos el CSS -->
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">MiPortalEstudiantil</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="horario.html" class="nav-link active">Mi Horario</a></li>
+                <li class="nav-item"><a href="disponibilidad.html" class="nav-link">Inscribir Asignaturas</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Calificaciones</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Perfil</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h1 class="title">Horario Escolar Semanal</h1>
+        <p class="subtitle">Planifica tu semana académica y actividades.</p>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horario</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miércoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                        <th>Sábado</th>
+                        <th>Domingo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-slot">07:00 - 08:30</td>
+                        <td class="asignatura">Matemáticas</td>
+                        <td class="asignatura">Literatura</td>
+                        <td class="asignatura">Ciencias</td>
+                        <td class="asignatura">Historia</td>
+                        <td class="asignatura">Idiomas</td>
+                        <td class="findesemana" rowspan="8">Fin de Semana</td>
+                        <td class="findesemana" rowspan="8">Fin de Semana</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">08:30 - 10:00</td>
+                        <td class="asignatura">Física</td>
+                        <td class="asignatura">Química</td>
+                        <td class="asignatura">Matemáticas</td>
+                        <td class="asignatura">Educación Física</td>
+                        <td class="asignatura">Arte</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">10:00 - 10:30</td>
+                        <td class="receso" colspan="5">R E C E S O</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">10:30 - 12:00</td> <!-- Ajustado para reflejar un receso más corto -->
+                        <td class="asignatura">Programación</td>
+                        <td class="asignatura">Base de Datos</td>
+                        <td class="asignatura">Redes</td>
+                        <td class="asignatura">Programación</td>
+                        <td class="asignatura">Sistemas Operativos</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">12:00 - 13:30</td>
+                        <td class="almuerzo" colspan="5">A L M U E R Z O</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">13:30 - 15:00</td>
+                        <td class="asignatura">Inglés</td>
+                        <td class="asignatura taller">Taller</td>
+                        <td class="asignatura">Investigación</td>
+                        <td class="asignatura tutoria">Tutorías</td>
+                        <td class="asignatura laboratorio">Laboratorio</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">15:00 - 16:30</td>
+                        <td class="asignatura electiva">Electiva</td>
+                        <td class="asignatura proyecto">Proyecto</td>
+                        <td class="asignatura electiva">Electiva</td>
+                        <td class="asignatura proyecto">Proyecto</td>
+                        <td class="asignatura seminario">Seminario</td>
+                    </tr>
+                    <tr>
+                        <td class="time-slot">16:30 - 18:00</td> <!-- Ajustado para no solapar -->
+                        <td class="actividad" colspan="5">Actividades Extracurriculares / Estudio</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Portal Estudiantil. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
