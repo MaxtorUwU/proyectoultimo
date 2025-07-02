@@ -1,0 +1,68 @@
+.form-container.home-landing {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 36px 24px 32px 24px;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 12px;
+  border: 3.5px solid #3b5998;
+  box-shadow: 0 0 18px rgba(42, 63, 102, 0.15);
+  text-align: center;
+}
+
+.form-title.home-title {
+  font-size: 1.5em;
+  color: #3b5998;
+  margin-bottom: 16px;
+  word-break: break-word;
+  white-space: normal;      /* Permite saltos de línea */
+  overflow: visible;        /* No oculta el texto */
+  text-overflow: unset;     /* No recorta el texto */
+  font-weight: 700;
+}
+
+.home-description {
+  font-size: 1.13em;
+  color: #34495e;
+  margin-bottom: 28px;
+  word-break: break-word;
+}
+
+.form-button {
+  margin-bottom: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1.08em;
+  padding: 14px 0;
+  font-weight: 700;
+  background-color: #3b5998;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.form-button:hover {
+  background-color: #2d4373;
+}
+
+.form-switch {
+  display: block;
+  margin-top: 0;
+  font-size: 1em;
+  width: 100%;
+  color: #3b5998;
+  text-decoration: none;
+  font-weight: 600;
+  transition: text-decoration 0.2s;
+  text-align: center;
+  padding: 8px 0 0 0;
+}
+
+.form-switch:hover {
+  text-decoration: underline;
+}

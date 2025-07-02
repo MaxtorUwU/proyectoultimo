@@ -1,0 +1,132 @@
+/* Estilos Generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4; /* Fondo más claro */
+    color: #333;
+    line-height: 1.8;
+    padding-top: 70px;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #ffffff; /* Fondo blanco para el contenido */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Estilos de la Tabla */
+.table-responsive {
+    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ccc; /* Bordes más suaves para las celdas */
+    padding: 12px 15px;
+    text-align: center;
+    min-width: 100px;
+}
+
+thead th {
+    background-color: #007bff; /* Azul brillante para los encabezados */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;  /* Color de fondo para filas impares */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f1f1f1;  /* Color de fondo para filas pares */
+}
+
+tbody tr:hover {
+    background-color: #e0e0e0;  /* Resaltar fila al pasar el mouse */
+}
+
+/*Columna de hora*/ .time-slot / {
+    font-weight: bold;
+    background-color: #333131; /* Fondo oscuro para la columna de hora */
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+/*Columna de asignatura*/ .asignatura {
+    font-size: 0.95em;
+}
+
+.receso,
+.almuerzo {
+    background-color: #f9a500; /* Naranja para recesos y almuerzos */
+    color: #ffffff;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.actividad {
+    background-color: #ffffff; /* Azul oscuro para actividades */
+    color: #000000;
+    font-style: italic;
+}
+
+/*Columna de fin de semana*/ .findesemana {
+    background-color: #ffffff; /* Fondo */
+    color: #000000;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+/* Estilos para los botones */
+.btn-inscribir {
+    background-color: #EEEB09; /* Color de acento amarillo */
+    color: #1C1A1A;           /* Texto oscuro para contraste */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-inscribir:hover {
+    background-color: #d4d108; /* Amarillo más oscuro al pasar el ratón */
+}
+
+.btn-inscribir:active {
+    transform: translateY(1px); /* Efecto de presionado */
+}
+
+.btn-inscribir:disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+}

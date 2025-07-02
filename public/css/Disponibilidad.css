@@ -1,0 +1,244 @@
+/* Definir variables globales */
+:root {
+    --color-fondo: #ffffff;   /* Color del fondo de la página, blanco */
+    --color-texto: #050505;   /* Color del texto, gris oscuro para buen contraste */
+    --color-titulo: #000000;  /* Color de los títulos, negro */
+    --color-boton-fondo: #4CAF50; /* Verde para los botones */
+    --color-boton-hover: #45a049; /* Verde más oscuro para el hover */
+    --color-boton-activo: #388e3c; /* Verde cuando se hace clic */
+    --color-borde: #000000;  /* Color de los bordes de las tablas, negro */
+    --color-fondo-seccion: #f5f5f5; /* Fondo claro para las secciones de contenido */
+    --color-fondo-tabla: #f2f2f2; /* Fondo claro para las filas de la tabla */
+    --color-tabla-header: #f4eded; /* Fondo muy claro para el encabezado de la tabla */
+    --color-receso: #f9a500; /* Naranja para recesos y almuerzos */
+    --color-actividad: #020202; /* Color de letras para las actividades (gris oscuro) */
+    --color-enlace: #007bff; /* Color de enlace azul */
+    --color-enlace-hover: #0056b3; /* Color de enlace cuando se pasa el ratón */
+    --color-pie-pagina: #007bff; /* Azul para el pie de página */
+    --color-pie-pagina-texto: white; /* Blanco para el texto del pie de página */
+    --color-tabla-hover: #e0e0e0; /* Resaltado de fila de tabla al pasar el ratón */
+}
+
+/* Estilos Generales y Reset Básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-fondo); /* Fondo blanco de la página */
+    color: var(--color-texto);  /* Texto oscuro para buen contraste */
+    line-height: 1.8;
+    padding-top: 70px; /* Espacio para el navbar fijo */
+}
+
+a {
+    color: var(--color-enlace); /* Color de enlaces (azul) */
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-enlace-hover); /* Cambio de color en el hover del enlace */
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--color-enlace); /* Fondo azul brillante para la barra de navegación */
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: var(--color-enlace-hover); /* Resaltar el enlace con un azul oscuro */
+    color: #fff;
+}
+
+/* Contenedor Principal del Contenido */
+.content-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: var(--color-fondo); /* Fondo blanco similar a "estructura horario" */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(248, 246, 246, 0.997);
+}
+
+.title {
+    color: var(--color-texto);  /* Texto oscuro para los títulos */
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666; /* Gris más suave para subtítulos */
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Estilos de la Tabla */
+.table-responsive {
+    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid var(--color-borde); /* Bordes negros para las celdas */
+    padding: 12px 15px;
+    text-align: center;
+    min-width: 100px;
+}
+
+thead th {
+    background-color: var(--color-tabla-header);  /* Fondo muy claro para los encabezados de la tabla */
+    color: var(--color-titulo); /* Usar color negro para el texto del encabezado */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--color-fondo-tabla);  /* Fondo claro para filas impares */
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-fondo-seccion);  /* Fondo claro para filas pares */
+}
+
+tbody tr:hover {
+    background-color: var(--color-tabla-hover); /* Resaltar filas cuando se pasa el ratón */
+}
+
+.time-slot {
+    font-weight: bold;
+    background-color: #333131;  /* Fondo oscuro para la columna de hora */
+    color: #099ae2;  /* Usar color amarillo para el texto de la hora */
+    white-space: nowrap;
+}
+
+.asignatura {
+    font-size: 0.95em;
+}
+
+.receso,
+.almuerzo {
+    background-color: var(--color-receso); /* Fondo naranja para recesos y almuerzos */
+    color: var(--color-texto); /* Texto oscuro */
+    font-style: italic;
+    font-weight: bold;
+}
+
+.actividad {
+    background-color: #2a3b47; /* Azul oscuro para actividades */
+    color: #c0d0e0; /* Texto claro */
+    font-style: italic;
+}
+
+.findesemana {
+    background-color: #1f2b38; /* Fondo oscuro para fines de semana */
+    color: #a0b0c0; /* Texto claro para fines de semana */
+    font-style: italic;
+    vertical-align: middle;
+}
+
+/* Botones */
+.btn-accion {
+    background-color: var(--color-enlace); /* Azul para los botones */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-accion:hover {
+    background-color: var(--color-enlace-hover); /* Azul oscuro cuando se pasa el ratón */
+}
+
+.btn-accion:active {
+    transform: translateY(1px); /* Efecto de presionado */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: var(--color-pie-pagina); /* Azul para el pie de página */
+    color: var(--color-pie-pagina-texto); /* Texto blanco para el pie de página */
+    border-top: 1px solid #ccc;
+    font-size: 0.9em;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    .nav-item {
+        margin: 10px 0;
+    }
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .title {
+        font-size: 1.8em;
+    }
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}

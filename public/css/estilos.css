@@ -1,0 +1,222 @@
+/* Estilos Generales y Reset Básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4; /* Fondo más claro */
+    color: #333;               /* Texto oscuro para buen contraste */
+    line-height: 1.8;          /* Mejor espaciado entre líneas */
+    padding-top: 70px;         /* Espacio para el navbar fijo */
+}
+
+a {
+    color: #007bff;            /* Color de acento azul para enlaces */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0056b3;            /* Cambio de color al pasar el ratón */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #007bff; /* Azul brillante para la barra de navegación */
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #0056b3; /* Azul oscuro para resaltar el enlace */
+    color: #fff;
+}
+
+/* Contenedor Principal del Contenido */
+.content-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #ffffff; /* Fondo blanco para el contenido */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #333;  /* Color oscuro para los títulos */
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;  /* Gris para subtítulos */
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Estilos de la Tabla del Horario */
+.table-responsive {
+    overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ccc;  /* Bordes más suaves para las celdas */
+    padding: 12px 15px;
+    text-align: center;
+    min-width: 100px;
+}
+
+thead th {
+    background-color: #007bff; /* Azul brillante para encabezados */
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;  /* Color de fondo para filas impares */
+}
+tbody tr:nth-child(even) {
+    background-color: #f1f1f1;  /* Color de fondo para filas pares */
+}
+
+tbody tr:hover {
+    background-color: #e0e0e0;  /* Resaltar fila al pasar el mouse */
+}
+
+.time-slot {
+    font-weight: bold;
+    background-color: #333131; /* Fondo oscuro para la columna de hora */
+    color: #EEEB09;
+    white-space: nowrap;
+}
+
+.asignatura {
+    font-size: 0.95em;
+}
+
+.receso,
+.almuerzo {
+    background-color: #444107; /* Color para recesos y almuerzos */
+    color: #E0E0E0;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.actividad {
+    background-color: #2a3b47; /* Azul oscuro para actividades */
+    color: #c0d0e0;
+    font-style: italic;
+}
+
+.findesemana {
+    background-color: #1f2b38; /* Diferente color para fin de semana */
+    color: #a0b0c0;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+/* Botones */
+.btn-accion {
+    background-color: #007bff;  /* Azul para botones */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-accion:hover {
+    background-color: #0056b3;  /* Cambio de color al pasar el ratón */
+}
+
+.btn-accion:active {
+    transform: translateY(1px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: #007bff; /* Fondo azul para el pie de página */
+    color: white;
+    border-top: 1px solid #ccc;
+    font-size: 0.9em;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    .nav-item {
+        margin: 10px 0;
+    }
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .title {
+        font-size: 1.8em;
+    }
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+}
